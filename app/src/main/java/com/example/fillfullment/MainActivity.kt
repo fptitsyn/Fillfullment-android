@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.fillfullment.ui.theme.FillfullmentTheme
 import okhttp3.Callback
@@ -25,15 +24,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting()
+                    getAllUsers()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting() {
+fun getAllUsers() {
     val client = OkHttpClient()
     val request = Request.Builder()
         .url("http://10.0.2.2:5000/users")
