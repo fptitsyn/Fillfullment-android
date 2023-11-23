@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    onClick: () -> Unit,
+    onClick: (Int) -> Unit,
     viewmodel: LoginViewmodel = viewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -42,7 +42,7 @@ fun LoginScreen(
             onClick = {
                 coroutineScope.launch {
                     if (viewmodel.checkUserInDb()) {
-                        onClick()
+                        onClick(viewmodel.userUiState.userDetails.id)
                     }
                 }
             },

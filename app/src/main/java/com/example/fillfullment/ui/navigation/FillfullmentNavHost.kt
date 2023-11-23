@@ -3,8 +3,10 @@ package com.example.fillfullment.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.fillfullment.HomeScreen
 import com.example.fillfullment.ui.login.LoginScreen
 
@@ -19,12 +21,16 @@ fun FillfullmentNavHost(
         modifier = modifier
     ) {
         composable(route = LoginDestination.finalRoute) {
-            LoginScreen(
-                onClick = { navController.navigateSingleTopTo(HomeDestination.finalRoute) }
-            )
+            LoginScreen(onClick = {
+                    navController.navigateSingleTopTo("${HomeDestination.route}/$it")
+                })
         }
-
-        composable(route = HomeDestination.finalRoute) {
+        composable(
+            route = HomeDestination.routeWithArgs,
+            arguments = listOf(navArgument(HomeDestination.userIdArg) {
+                type = NavType.IntType
+            })
+        ) {
             HomeScreen()
         }
     }

@@ -50,6 +50,7 @@ class LoginViewmodel : ViewModel() {
             val currentUser = userUiState.userDetails
             for (user in users) {
                 if (currentUser == user && user.status == 2) {
+                    userUiState = user.toUserUiState()
                     return@withContext true
                 }
             }
@@ -64,9 +65,6 @@ fun convertJsonToUserArray(jsonList: String): Array<User> {
         return emptyArray()
     }
 
-    for (user in jsonList) {
-        Log.d("MyLog", user.toString())
-    }
     val gson = Gson()
     val arrayUserType = object : TypeToken<Array<User>>() {}.type
     val users: Array<User> = gson.fromJson(jsonList, arrayUserType)
