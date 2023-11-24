@@ -14,10 +14,18 @@ object LoginDestination : NavDestination {
     override val finalRoute = routeWithArgs.ifBlank { route }
 }
 
-object HomeDestination : NavDestination {
-    override val route = "home"
+object OrdersDestination : NavDestination {
+    override val route = "orders"
     override val title = "Orders"
     const val userIdArg = "userId"
     override val routeWithArgs = "$route/{$userIdArg}"
+    override val finalRoute = routeWithArgs.ifBlank { route }
+}
+
+object EditOrderDestination : NavDestination {
+    override val route = "edit-order"
+    override val title = "Order"
+    const val orderIdArg = "orderId"
+    override val routeWithArgs = "$route/{$orderIdArg}"
     override val finalRoute = routeWithArgs.ifBlank { route }
 }

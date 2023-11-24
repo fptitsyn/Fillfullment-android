@@ -1,11 +1,11 @@
 package com.example.fillfullment.ui.data
 
 data class Order(
-    val order_id: Int = 0,
     val date: String = "",
+    val details: List<Product> = listOf(),
+    val order_id: Int = 0,
     val status: String = "",
-    val details: List<String> = listOf(),
+    val total: Double = 0.0,
     val type: String = "",
-    val user_id: Int = 0,
-    val total: Double = 0.0
+    val user_id: Int = 0
 )

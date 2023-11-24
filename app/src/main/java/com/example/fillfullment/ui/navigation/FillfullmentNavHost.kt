@@ -7,8 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.fillfullment.HomeScreen
+import com.example.fillfullment.ui.order.HomeScreen
 import com.example.fillfullment.ui.login.LoginScreen
+import com.example.fillfullment.ui.order.EditOrderScreen
 
 @Composable
 fun FillfullmentNavHost(
@@ -22,17 +23,29 @@ fun FillfullmentNavHost(
     ) {
         composable(route = LoginDestination.finalRoute) {
             LoginScreen(onClick = {
-                    navController.navigateSingleTopTo("${HomeDestination.route}/$it")
-                })
+                navController.navigateSingleTopTo("${OrdersDestination.route}/$it")
+            })
         }
         composable(
-            route = HomeDestination.routeWithArgs,
-            arguments = listOf(navArgument(HomeDestination.userIdArg) {
+            route = OrdersDestination.routeWithArgs,
+            arguments = listOf(navArgument(OrdersDestination.userIdArg) {
                 type = NavType.IntType
             })
         ) {
-            HomeScreen()
+            HomeScreen(navigateToOrderEdit = {
+                navController.navigateSingleTopTo("${EditOrderDestination.route}/$it")
+            })
         }
+        composable(
+            route = EditOrderDestination.routeWithArgs,
+            arguments = listOf(navArgument(EditOrderDestination.orderIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+                EditOrderScreen(
+                    navigateBack = { navController.navigateUp() }
+                )
+            }
     }
 }
 
