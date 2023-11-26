@@ -96,7 +96,7 @@ fun EditOrderBody(
                 modifier = Modifier.weight(1F)
             )
             Switch(
-                checked = checked,
+                checked = uiState.orderDetails.status == "Завершён",
                 onCheckedChange = {
                     hasBeenChecked = true
                     checked = it

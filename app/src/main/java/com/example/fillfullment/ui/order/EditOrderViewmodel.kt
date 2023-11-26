@@ -39,9 +39,7 @@ class EditOrderViewmodel(
 
                 val response = client.newCall(request).execute()
                 val order = convertJsonToOrder(response.body!!.string())
-                Log.d("OrderUi", order.toString())
                 orderUiState = order.toOrderUiState()
-                Log.d("OrderUi", orderUiState.orderDetails.toString())
             }
         }
     }
@@ -60,7 +58,7 @@ class EditOrderViewmodel(
         if (json.isBlank()) {
             return Order()
         }
-        Log.d("MyOrder", json)
+
         val gson = Gson()
         val order: Order = gson.fromJson(json, Order::class.java)
         return order

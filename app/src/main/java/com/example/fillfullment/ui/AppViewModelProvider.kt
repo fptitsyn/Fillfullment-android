@@ -9,9 +9,7 @@ import com.example.fillfullment.ui.order.HomeViewmodel
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            HomeViewmodel(
-                this.createSavedStateHandle()
-            )
+            HomeViewmodel()
         }
         initializer {
             EditOrderViewmodel(

@@ -1,10 +1,7 @@
 package com.example.fillfullment.ui.order
 
-import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.fillfullment.ui.data.Order
-import com.example.fillfullment.ui.navigation.OrdersDestination
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +9,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class HomeViewmodel(
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
-//    private val userId: Int = checkNotNull(savedStateHandle[OrdersDestination.userIdArg])
+class HomeViewmodel: ViewModel() {
 
     private val client = OkHttpClient()
 
@@ -35,7 +29,7 @@ class HomeViewmodel(
         if (data.isBlank()) {
             return emptyArray()
         }
-        Log.d("MyLogData", data)
+
         val gson = Gson()
         val arrayOrderType = object : TypeToken<Array<Order>>() {}.type
         val orders: Array<Order> = gson.fromJson(data, arrayOrderType)
