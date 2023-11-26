@@ -23,14 +23,14 @@ fun FillfullmentNavHost(
     ) {
         composable(route = LoginDestination.finalRoute) {
             LoginScreen(onClick = {
-                navController.navigateSingleTopTo("${OrdersDestination.route}/$it")
+                navController.navigateSingleTopTo(OrdersDestination.route)
             })
         }
         composable(
-            route = OrdersDestination.routeWithArgs,
-            arguments = listOf(navArgument(OrdersDestination.userIdArg) {
-                type = NavType.IntType
-            })
+            route = OrdersDestination.route,
+//            arguments = listOf(navArgument(OrdersDestination.userIdArg) {
+//                type = NavType.IntType
+//            })
         ) {
             HomeScreen(navigateToOrderEdit = {
                 navController.navigateSingleTopTo("${EditOrderDestination.route}/$it")
@@ -43,7 +43,7 @@ fun FillfullmentNavHost(
             })
         ) {
                 EditOrderScreen(
-                    navigateBack = { navController.navigateUp() }
+                    navigateBack = { navController.navigateSingleTopTo(OrdersDestination.route) }
                 )
             }
     }

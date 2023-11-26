@@ -15,7 +15,7 @@ import okhttp3.Request
 class HomeViewmodel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val userId: Int = checkNotNull(savedStateHandle[OrdersDestination.userIdArg])
+//    private val userId: Int = checkNotNull(savedStateHandle[OrdersDestination.userIdArg])
 
     private val client = OkHttpClient()
 

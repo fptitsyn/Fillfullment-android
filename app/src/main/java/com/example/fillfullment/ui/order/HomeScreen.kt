@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -78,16 +79,32 @@ fun RenderUsers(
 @Composable
 fun OrderItem(
     order: Order,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showStatus: Boolean = true
 ) {
     Column(modifier = modifier
-        .fillMaxWidth()) {
-        Text(text = order.order_id.toString())
-        Text(text = order.status)
-        Text(text = order.type)
-        for (detail in order.details) {
-            Text(text = detail.name)
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Text(
+            text = "Заказ №${order.order_id}",
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Column(modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+        ) {
+            Text(text = "Тип: ${order.type}")
+            for (product in order.details) {
+                Text(text = "x${product.quantity} ${product.name} " +
+                        "| Цена: ${product.price} | Сумма: ${product.subtotal}")
+            }
+            Text(text = "Итого: ${order.total}")
+            if (showStatus) {
+                Text(
+                    text = order.status,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
         }
-        Text(text = order.total.toString())
     }
 }

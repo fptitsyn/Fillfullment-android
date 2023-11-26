@@ -13,8 +13,10 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class EditOrderViewmodel(
     savedStateHandle: SavedStateHandle
@@ -65,7 +67,23 @@ class EditOrderViewmodel(
     }
 
     suspend fun updateOrder() {
+        withContext(Dispatchers.IO) {
+            val json = """
+                {
+                    "status": "${orderUiState.orderDetails.status}"
+                }
+            """.trimIndent()
 
+            val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+            val request = Request.Builder()
+                .url("http://10.0.2.2:5000/panel/orders/$orderId/edit")
+                .patch(body)
+                .build()
+
+            val response = client.newCall(request).execute()
+            Log.d("ResponseStatus", response.body!!.string())
+        }
     }
 }
 

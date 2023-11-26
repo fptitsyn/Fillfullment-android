@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    onClick: (Int) -> Unit,
+    onClick: () -> Unit,
     viewmodel: LoginViewmodel = viewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -42,12 +43,15 @@ fun LoginScreen(
             onClick = {
                 coroutineScope.launch {
                     if (viewmodel.checkUserInDb()) {
-                        onClick(viewmodel.userUiState.userDetails.id)
+                        onClick()
                     }
                 }
             },
             enabled = viewmodel.userUiState.isEntryValid,
-            modifier = Modifier.padding(top = 48.dp)
+            shape = RoundedCornerShape(5.dp),
+            modifier = Modifier
+                .padding(top = 100.dp)
+                .fillMaxWidth()
         ) {
             Text(text = stringResource(R.string.login))
         }
