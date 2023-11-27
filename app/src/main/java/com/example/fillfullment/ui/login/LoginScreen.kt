@@ -11,15 +11,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fillfullment.R
 import com.example.fillfullment.ui.data.User
+import com.example.fillfullment.ui.data.UserStore
 import kotlinx.coroutines.launch
 
 @Composable
@@ -28,6 +31,8 @@ fun LoginScreen(
     viewmodel: LoginViewmodel = viewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val store = UserStore(context)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -43,6 +48,7 @@ fun LoginScreen(
             onClick = {
                 coroutineScope.launch {
                     if (viewmodel.checkUserInDb()) {
+                        store.saveUserData(viewmodel.userUiState.userDetails.username, viewmodel.userUiState.userDetails.password)
                         onClick()
                     }
                 }
@@ -56,7 +62,6 @@ fun LoginScreen(
             Text(text = stringResource(R.string.login))
         }
     }
-    
 }
 
 @Composable

@@ -4,12 +4,12 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fillfullment.ui.order.EditOrderViewmodel
-import com.example.fillfullment.ui.order.HomeViewmodel
+import com.example.fillfullment.ui.order.OrderViewmodel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            HomeViewmodel()
+            OrderViewmodel()
         }
         initializer {
             EditOrderViewmodel(

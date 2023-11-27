@@ -17,8 +17,7 @@ object LoginDestination : NavDestination {
 object OrdersDestination : NavDestination {
     override val route = "orders"
     override val title = "Orders"
-    const val userIdArg = "userId"
-    override val routeWithArgs = "$route/{$userIdArg}"
+    override val routeWithArgs = ""
     override val finalRoute = routeWithArgs.ifBlank { route }
 }
 

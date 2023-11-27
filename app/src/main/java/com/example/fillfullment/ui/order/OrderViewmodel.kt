@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class HomeViewmodel: ViewModel() {
+class OrderViewmodel: ViewModel() {
 
     private val client = OkHttpClient()
 

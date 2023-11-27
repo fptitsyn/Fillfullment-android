@@ -15,10 +15,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
+import com.example.fillfullment.ui.data.UserStore
 import com.example.fillfullment.ui.navigation.FillfullmentNavHost
+import com.example.fillfullment.ui.navigation.LoginDestination
+import com.example.fillfullment.ui.navigation.OrdersDestination
 import com.example.fillfullment.ui.theme.FillfullmentTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,8 +38,21 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
 
+                    val context = LocalContext.current
+                    val store = UserStore(context)
+
+                    val usernameToken = store.getUsernameToken.collectAsState(initial = "")
+                    val passwordToken = store.getPasswordToken.collectAsState(initial = "")
+
+                    var startDestination = LoginDestination.finalRoute
+
+                    if (usernameToken.value.isNotBlank() && passwordToken.value.isNotBlank()) {
+                        startDestination = OrdersDestination.finalRoute
+                    }
+
                     FillfullmentNavHost(
-                        navController = navController
+                        navController = navController,
+                        startDestination = startDestination
                     )
                 }
             }

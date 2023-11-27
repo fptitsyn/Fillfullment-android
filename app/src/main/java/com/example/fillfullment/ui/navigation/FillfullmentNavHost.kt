@@ -14,17 +14,18 @@ import com.example.fillfullment.ui.order.EditOrderScreen
 @Composable
 fun FillfullmentNavHost(
     navController: NavHostController,
+    startDestination: String,
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = LoginDestination.finalRoute,
+        startDestination = startDestination,
         modifier = modifier
     ) {
         composable(route = LoginDestination.finalRoute) {
             LoginScreen(onClick = {
-                navController.navigate(OrdersDestination.route)
-            })
+                    navController.navigate(OrdersDestination.route)
+                })
         }
         composable(route = OrdersDestination.route) {
             HomeScreen(navigateToOrderEdit = {
