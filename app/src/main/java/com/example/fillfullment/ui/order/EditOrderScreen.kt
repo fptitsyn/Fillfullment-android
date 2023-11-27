@@ -25,9 +25,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fillfullment.FillfullmentTopAppBar
+import com.example.fillfullment.R
 import com.example.fillfullment.ui.AppViewModelProvider
 import com.example.fillfullment.ui.data.Order
 import com.example.fillfullment.ui.navigation.EditOrderDestination
@@ -135,7 +137,7 @@ fun EditOrderBody(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(text = "Apply")
+            Text(text = stringResource(R.string.apply))
         }
     }
 }

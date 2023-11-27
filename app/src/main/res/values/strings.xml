@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Fillfullment</string>
-    <string name="login">Login</string>
-    <string name="username">Username</string>
+    <string name="app_name" translatable="false">Fillfullment</string>
     <string name="password">Password</string>
     <string name="back_icon">Back icon</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="apply">Apply</string>
 </resources>
