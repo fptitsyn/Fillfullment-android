@@ -36,22 +36,17 @@ class LoginViewmodel : ViewModel() {
         }
 
         return withContext(Dispatchers.IO) {
+            val currentUser = userUiState.userDetails
             val request = Request.Builder()
-                .url("http://10.0.2.2:5000/users/json")
+                .url("http://10.0.2.2:5000/users/check/${currentUser.username}-" +
+                        "${currentUser.password}-${currentUser.status}")
                 .get()
                 .build()
 
             val response = client.newCall(request).execute()
             val json = response.body!!.string()
-
-            val users = convertJsonToUserArray(json)
-
-            val currentUser = userUiState.userDetails
-            for (user in users) {
-                if (currentUser == user && user.status == 2) {
-                    userUiState = user.toUserUiState()
-                    return@withContext true
-                }
+            if (json == "True") {
+                return@withContext true
             }
 
             return@withContext false
