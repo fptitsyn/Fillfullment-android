@@ -92,7 +92,7 @@ fun OrderItem(
         ) {
             Text(text = "Тип: ${order.type}")
             for (product in order.details) {
-                Text(text = "x${product.quantity} ${product.name} " +
+                Text(text = "x${product.quantity} ${product.name} | Артикул #${product.model_number} " +
                         "| Цена: ${product.price} | Сумма: ${product.subtotal}")
             }
             Text(text = "Итого: ${order.total}")

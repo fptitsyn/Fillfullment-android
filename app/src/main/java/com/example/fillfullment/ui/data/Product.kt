@@ -3,6 +3,7 @@ package com.example.fillfullment.ui.data
 data class Product(
     val count: Int = 0,
     val id: Int = 0,
+    val model_number: String = "",
     val name: String = "",
     val price: Double = 0.0,
     val quantity: Int = 0,
