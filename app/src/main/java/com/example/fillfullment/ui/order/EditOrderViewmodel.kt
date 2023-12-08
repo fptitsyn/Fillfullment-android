@@ -83,6 +83,24 @@ class EditOrderViewmodel(
             Log.d("ResponseStatus", response.body!!.string())
         }
     }
+
+    suspend fun printLabel() {
+        withContext(Dispatchers.IO) {
+            val json = """
+                
+            """.trimIndent()
+
+            val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+            val request = Request.Builder()
+                .url("http://10.0.2.2:5000/")
+                .get()
+                .build()
+
+            val response = client.newCall(request).execute()
+            Log.d("ResponseStatus", response.body!!.string())
+        }
+    }
 }
 
 data class OrderUiState(

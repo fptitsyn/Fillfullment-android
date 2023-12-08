@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,15 +50,18 @@ fun LoginScreen(
             onClick = {
                 coroutineScope.launch {
                     if (viewmodel.checkUserInDb()) {
-                        store.saveUserData(viewmodel.userUiState.userDetails.username, viewmodel.userUiState.userDetails.password)
+                        store.saveUserData(viewmodel.userUiState.userDetails.emailOrPhone.trim(), viewmodel.userUiState.userDetails.password.trim())
                         onClick()
                     }
                 }
             },
             enabled = viewmodel.userUiState.isEntryValid,
             shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
             modifier = Modifier
-                .padding(top = 100.dp)
+                .padding(top = 64.dp)
                 .fillMaxWidth()
         ) {
             Text(text = stringResource(R.string.login))
@@ -75,14 +81,17 @@ fun LoginInputForm(
         modifier = modifier
     ) {
         TextField(
-            value = userDetails.username,
-            onValueChange = { onValueChange(userDetails.copy(username = it)) },
-            label = { Text(text = stringResource(R.string.username)) },
+            value = userDetails.emailOrPhone,
+            onValueChange = { onValueChange(userDetails.copy(emailOrPhone = it)) },
+            label = { Text(text = stringResource(R.string.email_or_phone_number)) },
             colors = TextFieldDefaults.colors(
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedLabelColor = MaterialTheme.colorScheme.onSurface,
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer
             ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -92,6 +101,8 @@ fun LoginInputForm(
             visualTransformation = PasswordVisualTransformation(),
             label = { Text(text = stringResource(R.string.password)) },
             colors = TextFieldDefaults.colors(
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedLabelColor = MaterialTheme.colorScheme.onSurface,
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer

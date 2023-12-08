@@ -5,4 +5,12 @@
     <string name="login">Войти</string>
     <string name="username">Имя пользователя</string>
     <string name="apply">Редактировать</string>
+    <string name="email_or_phone_number">Email или номер телефона</string>
+    <string name="print_the_label">Распечатать этикетку</string>
+    <string name="log_out_icon">Кнопка выхода из учётной записи</string>
+    <string name="log_out_confirmation_title">Внимание…</string>
+    <string name="log_out_confirmation_text">Вы уверены, что хотите выйти из учётной записи?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="log_out">Выйти</string>
 </resources>

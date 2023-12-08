@@ -5,4 +5,12 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="apply">Apply</string>
+    <string name="email_or_phone_number">Email or phone number</string>
+    <string name="print_the_label">Print the label</string>
+    <string name="log_out_icon">Log Out icon</string>
+    <string name="log_out_confirmation_title">Attention…</string>
+    <string name="log_out_confirmation_text">Are you sure you want to log out?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="log_out">Log Out</string>
 </resources>

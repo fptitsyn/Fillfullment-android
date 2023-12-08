@@ -14,12 +14,11 @@ import com.example.fillfullment.ui.order.EditOrderScreen
 @Composable
 fun FillfullmentNavHost(
     navController: NavHostController,
-    startDestination: String,
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = LoginDestination.finalRoute,
         modifier = modifier
     ) {
         composable(route = LoginDestination.finalRoute) {
@@ -28,9 +27,14 @@ fun FillfullmentNavHost(
                 })
         }
         composable(route = OrdersDestination.route) {
-            HomeScreen(navigateToOrderEdit = {
-                navController.navigate("${EditOrderDestination.route}/$it")
-            })
+            HomeScreen(
+                navigateToOrderEdit = {
+                    navController.navigate("${EditOrderDestination.route}/$it")
+                },
+                onLogOut = {
+                    navController.navigate(LoginDestination.finalRoute)
+                }
+            )
         }
         composable(
             route = EditOrderDestination.routeWithArgs,
@@ -39,7 +43,8 @@ fun FillfullmentNavHost(
             })
         ) {
                 EditOrderScreen(
-                    navigateBack = { navController.popBackStack() }
+                    navigateBack = { navController.popBackStack() },
+                    onLogOut = { navController.navigate(LoginDestination.finalRoute) }
                 )
             }
     }

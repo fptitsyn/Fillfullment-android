@@ -11,9 +11,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -22,9 +25,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,6 +37,7 @@ import com.example.fillfullment.FillfullmentTopAppBar
 import com.example.fillfullment.R
 import com.example.fillfullment.ui.AppViewModelProvider
 import com.example.fillfullment.ui.data.Order
+import com.example.fillfullment.ui.data.UserStore
 import com.example.fillfullment.ui.navigation.EditOrderDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -39,17 +45,28 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditOrderScreen(
     navigateBack: () -> Unit,
+    onLogOut: () -> Unit,
     viewModel: EditOrderViewmodel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState = viewModel.orderUiState
     val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val store = UserStore(context)
+    var logOutConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         topBar = {
             FillfullmentTopAppBar(
                 screenTitle = EditOrderDestination.title,
                 canNavigateBack = true,
-                onClickBack = navigateBack
+                onClickBack = navigateBack,
+                onLogOut = {
+                    logOutConfirmationRequired = true
+                }
             )
         }
     ) { innerPadding ->
@@ -59,8 +76,24 @@ fun EditOrderScreen(
             coroutineScope = coroutineScope,
             navigateBack = navigateBack,
             onCheckedChange = viewModel::updateUiState,
+            snackbarHostState = snackbarHostState,
             modifier = Modifier.padding(innerPadding)
         )
+
+        if (logOutConfirmationRequired) {
+            LogOutConfirmationDialog(
+                onLogOutConfirm = {
+                    coroutineScope.launch {
+                        store.saveUserData("", "")
+                    }
+                    onLogOut()
+                },
+                onLogOutCancel = {
+                    logOutConfirmationRequired = false
+                },
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }
 
@@ -71,6 +104,7 @@ fun EditOrderBody(
     coroutineScope: CoroutineScope,
     navigateBack: () -> Unit,
     onCheckedChange: (Order) -> Unit,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
     var checked by remember { mutableStateOf(false) }
@@ -108,6 +142,9 @@ fun EditOrderBody(
                         onCheckedChange(uiState.orderDetails.copy(status = "В обработке"))
                     }
                 },
+                colors = SwitchDefaults.colors(
+                    checkedTrackColor = MaterialTheme.colorScheme.secondary
+                ),
                 thumbContent = if (checked) {
                     {
                         Icon(
@@ -124,6 +161,25 @@ fun EditOrderBody(
                 }
             )
         }
+        if (!uiState.orderDetails.label.isNullOrBlank()) {
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.printLabel()
+                        snackbarHostState.showSnackbar("Начало печати...")
+                    }
+                },
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(R.string.print_the_label))
+            }
+        }
         Button(
             onClick = {
                 coroutineScope.launch {
@@ -133,6 +189,9 @@ fun EditOrderBody(
             },
             enabled = hasBeenChecked,
             shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)

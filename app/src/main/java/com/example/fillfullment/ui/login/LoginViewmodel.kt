@@ -25,7 +25,7 @@ class LoginViewmodel : ViewModel() {
 
     private fun validateInput(uiState: User = userUiState.userDetails): Boolean {
         return with(uiState) {
-            username.isNotBlank()
+            emailOrPhone.isNotBlank()
             password.isNotBlank()
         }
     }
@@ -38,7 +38,7 @@ class LoginViewmodel : ViewModel() {
         return withContext(Dispatchers.IO) {
             val currentUser = userUiState.userDetails
             val request = Request.Builder()
-                .url("http://10.0.2.2:5000/users/check/${currentUser.username}-" +
+                .url("http://10.0.2.2:5000/users/check/${currentUser.emailOrPhone}-" +
                         "${currentUser.password}-${currentUser.status}")
                 .get()
                 .build()
