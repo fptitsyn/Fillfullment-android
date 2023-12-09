@@ -84,17 +84,20 @@ class EditOrderViewmodel(
         }
     }
 
-    suspend fun printLabel() {
+    suspend fun printLabel(id: Int) {
         withContext(Dispatchers.IO) {
             val json = """
-                
+                {
+                    "label_name": "${orderUiState.orderDetails.label}",
+                    "id": "$id"
+                }
             """.trimIndent()
 
             val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
             val request = Request.Builder()
-                .url("http://10.0.2.2:5000/")
-                .get()
+                .url("http://10.0.2.2:5000/panel/orders/print-label")
+                .post(body)
                 .build()
 
             val response = client.newCall(request).execute()

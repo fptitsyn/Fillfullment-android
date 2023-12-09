@@ -30,9 +30,9 @@ class LoginViewmodel : ViewModel() {
         }
     }
 
-    suspend fun checkUserInDb() : Boolean {
+    suspend fun checkUserInDb() : String {
         if (!validateInput()) {
-            return false
+            return ""
         }
 
         return withContext(Dispatchers.IO) {
@@ -45,11 +45,11 @@ class LoginViewmodel : ViewModel() {
 
             val response = client.newCall(request).execute()
             val json = response.body!!.string()
-            if (json == "True") {
-                return@withContext true
+            if (json != "False") {
+                return@withContext json
             }
 
-            return@withContext false
+            return@withContext ""
         }
     }
 }

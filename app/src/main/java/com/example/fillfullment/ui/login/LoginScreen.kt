@@ -49,8 +49,9 @@ fun LoginScreen(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    if (viewmodel.checkUserInDb()) {
-                        store.saveUserData(viewmodel.userUiState.userDetails.emailOrPhone.trim(), viewmodel.userUiState.userDetails.password.trim())
+                    val id = viewmodel.checkUserInDb()
+                    if (id != "") {
+                        store.saveUserData(viewmodel.userUiState.userDetails.emailOrPhone.trim(), viewmodel.userUiState.userDetails.password.trim(), id.toInt())
                         onClick()
                     }
                 }

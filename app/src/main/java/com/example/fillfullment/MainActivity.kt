@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             )
                             Log.d("Authorization", viewModel.userUiState.userDetails.toString())
-                            if (viewModel.checkUserInDb()) {
+                            if (viewModel.checkUserInDb() != "") {
                                 navController.navigate(OrdersDestination.finalRoute)
                             }
                         }

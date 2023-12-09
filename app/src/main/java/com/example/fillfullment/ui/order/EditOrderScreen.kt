@@ -21,6 +21,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import com.example.fillfullment.FillfullmentTopAppBar
 import com.example.fillfullment.R
 import com.example.fillfullment.ui.AppViewModelProvider
 import com.example.fillfullment.ui.data.Order
+import com.example.fillfullment.ui.data.User
 import com.example.fillfullment.ui.data.UserStore
 import com.example.fillfullment.ui.navigation.EditOrderDestination
 import kotlinx.coroutines.CoroutineScope
@@ -84,7 +86,7 @@ fun EditOrderScreen(
             LogOutConfirmationDialog(
                 onLogOutConfirm = {
                     coroutineScope.launch {
-                        store.saveUserData("", "")
+                        store.saveUserData("", "", 0)
                     }
                     onLogOut()
                 },
@@ -109,6 +111,8 @@ fun EditOrderBody(
 ) {
     var checked by remember { mutableStateOf(false) }
     var hasBeenChecked by remember { mutableStateOf(false) }
+    val store = UserStore(LocalContext.current)
+    val idToken = store.getIdToken.collectAsState(initial = 0)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -165,7 +169,7 @@ fun EditOrderBody(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        viewModel.printLabel()
+                        viewModel.printLabel(idToken.value)
                         snackbarHostState.showSnackbar("Начало печати...")
                     }
                 },

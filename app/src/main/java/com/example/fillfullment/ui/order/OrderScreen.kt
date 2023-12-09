@@ -65,7 +65,7 @@ fun HomeScreen(
             LogOutConfirmationDialog(
                 onLogOutConfirm = {
                     coroutineScope.launch {
-                        store.saveUserData("", "")
+                        store.saveUserData("", "", 0)
                     }
                     onLogOut()
                 },
