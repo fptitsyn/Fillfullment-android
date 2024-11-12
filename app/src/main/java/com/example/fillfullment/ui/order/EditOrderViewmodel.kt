@@ -18,9 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class EditOrderViewmodel(
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class EditOrderViewmodel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     private val orderId: Int = checkNotNull(savedStateHandle[EditOrderDestination.orderIdArg])
 
